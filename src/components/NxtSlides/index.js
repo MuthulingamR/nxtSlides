@@ -49,26 +49,35 @@ class NxtSlides extends Component {
     activeTabId: initialSlidesList[0].id,
     headingTag: true,
     paraTag: true,
-    activeSlideDetails: initialSlidesList[0],
+    activeSlideHeading: initialSlidesList[0].heading,
+    activeSlidePara: initialSlidesList[0].description,
   }
 
   onAddNew = () => {
+    const {activeTabId, slidesList} = this.state
+    const activeIndex = slidesList.findIndex(obj => obj.id === activeTabId)
+    const insertIndex = activeIndex + 1
+    console.log(activeIndex)
     const newSlide = {
       id: v4(),
       heading: 'Heading',
       description: 'Description',
     }
-    this.setState(prevState => ({
-      slidesList: [newSlide, ...prevState.slidesList],
-      activeSlideDetails: newSlide,
+    const newArray = [...slidesList]
+    newArray.splice(insertIndex, 0, newSlide)
+    this.setState({
+      slidesList: newArray,
+      activeSlideHeading: newSlide.heading,
+      activeSlidePara: newSlide.description,
       activeTabId: newSlide.id,
-    }))
+    })
   }
 
   onClickSlide = details => {
     this.setState({
       activeTabId: details.id,
-      activeSlideDetails: details,
+      activeSlideHeading: details.heading,
+      activeSlidePara: details.description,
     })
   }
 
@@ -80,31 +89,83 @@ class NxtSlides extends Component {
     this.setState(prevState => ({paraTag: !prevState.paraTag}))
   }
 
-  onChangeHeading = event => {
-    const {activeTabId} = this.state
+  onChangeSmallSlideHeading = () => {
+    const {activeSlideHeading, activeTabId} = this.state
 
     this.setState(prevState => ({
-      headingTag: !prevState.headingTag,
       slidesList: prevState.slidesList.map(each => {
         if (each.id === activeTabId) {
-          return {...each, heading: event.target.value}
+          return {...each, heading: activeSlideHeading}
         }
         return each
       }),
     }))
   }
 
-  onChangePara = event => {
-    const {activeTabId} = this.state
+  onChangeSmallSlidePara = () => {
+    const {activeSlidePara, activeTabId} = this.state
+
     this.setState(prevState => ({
-      paraTag: !prevState.paraTag,
       slidesList: prevState.slidesList.map(each => {
         if (each.id === activeTabId) {
-          return {...each, description: event.target.value}
+          return {...each, description: activeSlidePara}
         }
         return each
       }),
     }))
+  }
+
+  onChangeHeading = event => {
+    this.setState(
+      {activeSlideHeading: event.target.value},
+      this.onChangeSmallSlideHeading,
+    )
+  }
+
+  onBlurHeading = () => {
+    const {activeSlideHeading, activeTabId} = this.state
+
+    if (activeSlideHeading === '') {
+      this.setState(prevState => ({
+        activeSlideHeading: 'heading',
+        slidesList: prevState.slidesList.map(each => {
+          if (each.id === activeTabId) {
+            return {...each, heading: 'heading'}
+          }
+          return each
+        }),
+      }))
+    }
+
+    this.setState(prevState => ({
+      headingTag: !prevState.headingTag,
+    }))
+  }
+
+  onBlurPara = () => {
+    const {activeSlidePara, activeTabId} = this.state
+    if (activeSlidePara === '') {
+      this.setState(prevState => ({
+        activeSlidePara: 'description',
+        slidesList: prevState.slidesList.map(each => {
+          if (each.id === activeTabId) {
+            return {...each, description: 'description'}
+          }
+          return each
+        }),
+      }))
+    }
+
+    this.setState(prevState => ({
+      paraTag: !prevState.paraTag,
+    }))
+  }
+
+  onChangePara = event => {
+    this.setState(
+      {activeSlidePara: event.target.value},
+      this.onChangeSmallSlidePara,
+    )
   }
 
   render() {
@@ -113,9 +174,12 @@ class NxtSlides extends Component {
       slidesList,
       headingTag,
       paraTag,
-      activeSlideDetails,
+      activeSlideHeading,
+      activeSlidePara,
     } = this.state
-    const {heading, description} = activeSlideDetails
+
+    let index = 0
+
     return (
       <>
         <Header />
@@ -125,19 +189,23 @@ class NxtSlides extends Component {
               src="https://assets.ccbp.in/frontend/react-js/nxt-slides/nxt-slides-plus-icon.png"
               alt="new plus icon"
               className="plus-icon"
-            />{' '}
+            />
             New
           </button>
           <div className="slides-slide-container">
             <ol className="slides-ol-container">
-              {slidesList.map(each => (
-                <SlideItem
-                  key={each.id}
-                  onClickSlide={this.onClickSlide}
-                  slideDetails={each}
-                  isActive={activeTabId === each.id}
-                />
-              ))}
+              {slidesList.map(each => {
+                index += 1
+                return (
+                  <SlideItem
+                    key={each.id}
+                    onClickSlide={this.onClickSlide}
+                    slideDetails={each}
+                    index={index}
+                    isActive={activeTabId === each.id}
+                  />
+                )
+              })}
             </ol>
             <div className="main-slide-container">
               {headingTag ? (
@@ -145,13 +213,14 @@ class NxtSlides extends Component {
                   className="current-slide-heading"
                   onClick={this.onConvertHeadingTag}
                 >
-                  {heading}
+                  {activeSlideHeading}
                 </h1>
               ) : (
                 <input
                   className="input-text1"
-                  onBlur={this.onChangeHeading}
-                  value={heading}
+                  onChange={this.onChangeHeading}
+                  onBlur={this.onBlurHeading}
+                  value={activeSlideHeading}
                   type="text"
                 />
               )}
@@ -160,13 +229,14 @@ class NxtSlides extends Component {
                   onClick={this.onConvertParaTag}
                   className="current-slide-para"
                 >
-                  {description}
+                  {activeSlidePara}
                 </p>
               ) : (
                 <input
                   className="input-text2"
-                  onBlur={this.onChangePara}
-                  value={description}
+                  onChange={this.onChangePara}
+                  onBlur={this.onBlurPara}
+                  value={activeSlidePara}
                   type="text"
                 />
               )}
