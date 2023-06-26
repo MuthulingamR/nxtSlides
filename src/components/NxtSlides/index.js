@@ -57,7 +57,6 @@ export default class NxtSlides extends Component {
     const {activeTabId, slidesList} = this.state
     const activeIndex = slidesList.findIndex(obj => obj.id === activeTabId)
     const insertIndex = activeIndex + 1
-    console.log(activeIndex)
     const newSlide = {
       id: v4(),
       heading: 'Heading',
