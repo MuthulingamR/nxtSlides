@@ -45,7 +45,7 @@ const initialSlidesList = [
 
 export default class NxtSlides extends Component {
   state = {
-    slidesList: initialSlidesList,
+    slidesList: [],
     activeTabId: initialSlidesList[0].id,
     headingTag: true,
     paraTag: true,
