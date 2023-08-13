@@ -45,7 +45,7 @@ const initialSlidesList = [
 
 export default class NxtSlides extends Component {
   state = {
-    slidesList: [],
+    slidesList: initialSlidesList,
     activeTabId: initialSlidesList[0].id,
     headingTag: true,
     paraTag: true,
@@ -62,7 +62,7 @@ export default class NxtSlides extends Component {
       heading: 'Heading',
       description: 'Description',
     }
-    const newArray = [...slidesList]
+    const newArray = slidesList
     newArray.splice(insertIndex, 0, newSlide)
     this.setState({
       slidesList: newArray,
@@ -177,7 +177,7 @@ export default class NxtSlides extends Component {
       activeSlidePara,
     } = this.state
 
-    let index = 0
+    let slideNo = 0
 
     return (
       <>
@@ -194,13 +194,13 @@ export default class NxtSlides extends Component {
           <div className="slides-slide-container">
             <ol className="slides-ol-container">
               {slidesList.map(each => {
-                index += 1
+                slideNo += 1
                 return (
                   <SlideItem
                     key={each.id}
                     onClickSlide={this.onClickSlide}
                     slideDetails={each}
-                    index={index}
+                    slideNo={slideNo}
                     isActive={activeTabId === each.id}
                   />
                 )
