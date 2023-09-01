@@ -126,10 +126,10 @@ export default class NxtSlides extends Component {
 
     if (activeSlideHeading === '') {
       this.setState(prevState => ({
-        activeSlideHeading: 'heading',
+        activeSlideHeading: 'Heading',
         slidesList: prevState.slidesList.map(each => {
           if (each.id === activeTabId) {
-            return {...each, heading: 'heading'}
+            return {...each, heading: 'Heading'}
           }
           return each
         }),
@@ -145,10 +145,10 @@ export default class NxtSlides extends Component {
     const {activeSlidePara, activeTabId} = this.state
     if (activeSlidePara === '') {
       this.setState(prevState => ({
-        activeSlidePara: 'description',
+        activeSlidePara: 'Description',
         slidesList: prevState.slidesList.map(each => {
           if (each.id === activeTabId) {
-            return {...each, description: 'description'}
+            return {...each, description: 'Description'}
           }
           return each
         }),
