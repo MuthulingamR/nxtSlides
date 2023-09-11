@@ -81,11 +81,19 @@ export default class NxtSlides extends Component {
   }
 
   onConvertHeadingTag = () => {
+    const {paraTag} = this.state
     this.setState(prevState => ({headingTag: !prevState.headingTag}))
+    if (!paraTag) {
+      this.setState(prevState => ({paraTag: !prevState.paraTag}))
+    }
   }
 
   onConvertParaTag = () => {
+    const {headingTag} = this.state
     this.setState(prevState => ({paraTag: !prevState.paraTag}))
+    if (!headingTag) {
+      this.setState(prevState => ({headingTag: !prevState.headingTag}))
+    }
   }
 
   onChangeSmallSlideHeading = () => {
