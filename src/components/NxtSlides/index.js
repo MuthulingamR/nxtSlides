@@ -45,7 +45,7 @@ const initialSlidesList = [
 
 export default class NxtSlides extends Component {
   state = {
-    slidesList: initialSlidesList,
+    slidesList: [...initialSlidesList],
     activeTabId: initialSlidesList[0].id,
     headingTag: true,
     paraTag: true,
@@ -62,10 +62,10 @@ export default class NxtSlides extends Component {
       heading: 'Heading',
       description: 'Description',
     }
-    const newArray = slidesList
-    newArray.splice(insertIndex, 0, newSlide)
+
+    slidesList.splice(insertIndex, 0, newSlide)
     this.setState({
-      slidesList: newArray,
+      slidesList,
       activeSlideHeading: newSlide.heading,
       activeSlidePara: newSlide.description,
       activeTabId: newSlide.id,
