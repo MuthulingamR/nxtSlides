@@ -69,6 +69,8 @@ export default class NxtSlides extends Component {
       activeSlideHeading: newSlide.heading,
       activeSlidePara: newSlide.description,
       activeTabId: newSlide.id,
+      headingTag: true,
+      paraTag: true,
     })
   }
 
@@ -77,6 +79,8 @@ export default class NxtSlides extends Component {
       activeTabId: details.id,
       activeSlideHeading: details.heading,
       activeSlidePara: details.description,
+      headingTag: true,
+      paraTag: true,
     })
   }
 
