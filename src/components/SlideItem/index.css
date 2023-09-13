@@ -10,17 +10,9 @@
   border-bottom-right-radius: 10px;
 }
 
-.slide-btn {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  width: 100%;
-  box-shadow: 5px 5px 5px 5px #475569;
-  border-radius: 8px;
-}
-
 .slide-item-inner-container {
+  box-shadow: 5px 5px 5px 5px #475569;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;

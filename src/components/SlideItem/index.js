@@ -8,17 +8,15 @@ const SlideItem = props => {
   return (
     <div className={`item-flex ${activeList}`}>
       <p id="para">{slideNo}</p>
-      <li testid={`slideTab${slideNo}`} className="slide-item-container">
-        <button
-          type="button"
-          onClick={() => onClickSlide(slideDetails)}
-          className="slide-btn"
-        >
-          <div className="slide-item-inner-container">
-            <h1 className="slide-heading">{heading}</h1>
-            <p className="slide-para">{description}</p>
-          </div>
-        </button>
+      <li
+        testid={`slideTab${slideNo}`}
+        onClick={() => onClickSlide(slideDetails)}
+        className="slide-item-container"
+      >
+        <div className="slide-item-inner-container">
+          <h1 className="slide-heading">{heading}</h1>
+          <p className="slide-para">{description}</p>
+        </div>
       </li>
     </div>
   )
